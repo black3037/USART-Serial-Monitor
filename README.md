@@ -6,5 +6,7 @@ A multi-platform (OSX,LINUX coming soon) graphical interface debugging USART ser
 The UI can send and recieve messages from USART serial (possibly others protocalls as well, has not been tested yet).
 This UI assumes strings sent from the command line are new line \n deliminted. This can easily be changed in the code.
 
+Thie UI was tested with a ST32F4 Discovery board using USART. The Discovery board listens for messages termined by the new line character '\n' and echos them back over serial.
+
 
 
