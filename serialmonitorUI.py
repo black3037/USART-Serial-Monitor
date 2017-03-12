@@ -62,6 +62,7 @@ class Ui_serialMonitor(object):
         self.horizontalLayout_3.addWidget(self.refreshButton)
         self.connectButton = QtGui.QPushButton(self.centralWidget)
         self.connectButton.setObjectName(_fromUtf8("connectButton"))
+        self.connectButton.setCheckable(True)
         self.horizontalLayout_3.addWidget(self.connectButton)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.textBrowser = QtGui.QTextBrowser(self.centralWidget)

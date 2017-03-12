@@ -12,6 +12,8 @@ import serial
 
 from PyQt4.QtCore import QThread, SIGNAL, pyqtSignal
 
+import time
+
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -26,7 +28,7 @@ class serialMonitorMainWindow(QMainWindow, Ui_serialMonitor):
 
         # Signals and Slots
         self.refreshButton.clicked.connect(self.refresh)
-        self.connectButton.clicked.connect(self.connect)
+        self.connectButton.toggled.connect(self.connect)
         self.sendButton.clicked.connect(self.send)
         self.clearButton.clicked.connect(self.clear)
         self.lineEdit.returnPressed.connect(self.send)
@@ -52,19 +54,30 @@ class serialMonitorMainWindow(QMainWindow, Ui_serialMonitor):
         self.textBrowser.append(outputString)
         self.lineEdit.clear()
 
-    def connect(self):
+    def connect(self,checked):
 
-        self.setupConnection()
+        if checked:
 
-        if (self.connection.is_open):
+            self.connectButton.setText('Discon.')
+            self.setupConnection()
 
-            self.textBrowser.setText('Connection Successful')
+            if (self.connection.is_open):
 
-        else:
+                self.textBrowser.setText('Connection Successful')
 
-            self.textBrowser.setText('Something went wrong')
-            self.textBrowser.setText('Could possibly have connection port open to other devices. Disconnect and try again.')
+            else:
 
+                self.textBrowser.setText('Something went wrong')
+                self.textBrowser.setText('Could possibly have connection port open to other devices. Disconnect and try again.')
+
+        elif not checked:
+
+            self.connectButton.setText('Connect')
+            self.disconnect()
+
+    def disconnect(self):
+
+        self.connection.close()
 
     def refresh(self):
 
@@ -154,7 +167,8 @@ class listenThread(QThread):
         while 1:
             message = 'havestring'
             self.emit(SIGNAL("HAVEMESSAGE"),message)
-            self.sleep(1)
+            #self.sleep(0.1)
+            time.sleep(0.3)
                 
 
         
